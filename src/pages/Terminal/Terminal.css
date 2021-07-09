@@ -1,0 +1,22 @@
+.footer{
+    display:flex;
+    align-items: center;
+}
+.Terminal >ion-content>ion-list>ion-item {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: large;
+}
+.Terminal >ion-content>ion-list>ion-item.trans {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: large;
+    text-align: end;
+}
+.Disconnect{
+    text-align: center;
+}
+.input >ion-button{
+    height: 48px;
+    width: 60px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}

@@ -1,0 +1,14 @@
+.container {
+    text-align: center;
+  }
+  .container .Device_Name{
+    margin-bottom: 100px;
+  }
+  .container .Device_Name >div{
+    border: 1px solid black;
+    margin: 20px;
+  }
+  .container .input_field {
+    display:flex;
+    text-align: center;
+  }

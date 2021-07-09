@@ -1,8 +1,11 @@
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet } from '@ionic/react';
+import { IonApp, IonRouterOutlet, IonMenu ,IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonMenuToggle, IonLabel, IonIcon} from '@ionic/react';
+import { terminalOutline } from 'ionicons/icons';
 import { IonReactRouter } from '@ionic/react-router';
-import Home from './pages/Home';
-
+import Home from './pages/Home/Home';
+import Menu from './components/Menu/Menu'
+import Devices from './pages/Devices/Devices'
+import Terminal from './pages/Terminal/Terminal'
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -25,13 +28,12 @@ import './theme/variables.css';
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
+      <Menu/>
+      <IonRouterOutlet  id="main">
+        <Route path="/home" component={Home} exact={true} />
+        <Route path="/device" component={Devices} exact={true} />
+        <Route path="/terminal" component={Terminal} exact={true} />
+        <Route exact path="/" render={() => <Redirect to="/home" />} />
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>

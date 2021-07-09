@@ -1,0 +1,11 @@
+.Toolbar {
+    display: flex;
+}
+.Toolbar> div:nth-child(2){
+    margin-left: 120px;
+    margin-right: 120px;
+}
+.Toolbar >div:nth-child(3)>img{
+    width: 30px;
+    height: 30px;
+}

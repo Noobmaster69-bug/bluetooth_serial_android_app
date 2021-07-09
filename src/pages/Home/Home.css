@@ -1,0 +1,25 @@
+.Toolbar {
+    display: flex;
+}
+.screen{
+    align-items: center;
+    text-align: center;
+}
+.Thermometer{
+    display: flex;
+}
+.Disconnect > img{
+    margin-top: 150px;
+}
+.light{
+    margin-top: 50px;
+    --border-radius:100%;
+    --border-width:3px;
+    width: 250px;
+    height: 250px;
+}
+.bulb{
+    margin-left:10px;
+    width: 180px;
+    height: 180px;
+}
