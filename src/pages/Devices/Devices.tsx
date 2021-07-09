@@ -44,7 +44,7 @@ const Devices: React.FC = (props) =>{
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar color = "success">
+        <IonToolbar>
           <IonTitle>Devices List</IonTitle>
           <IonButtons slot="start">
             <IonMenuButton autoHide = {false} id = "main"/>

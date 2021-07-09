@@ -25,7 +25,7 @@ const Home: React.FC = () => {
 
   const onLED = () =>{
     setLED(!LED)
-    BS.write("LED " + ((LED) ? ("ON") : ("OFF")) + "\r\n")
+    BS.write(+ ((LED) ? ("a") : ("b")) + "\r\n")
   }
   const onDCN = () =>{
     BS.disconnect(() => toast("Disconnected"), () => toast("Failed to disconnect devices! Please try again"))
@@ -36,14 +36,14 @@ const Home: React.FC = () => {
     const Rec = () =>{
       BS.subscribe('\n',(data) =>{
         if(data === "LED ON\r\n"){
-          setLED(true)
+          setLED(true) //hiển thị đèn sáng
         } else
         if(data === "LED OFF\r\n"){
-          setLED(false)
+          setLED(false) //hiển thị đèn tối
         } else
         if(data[data.length -4] + data[data.length -3] ==="°C"){
           data = data.slice(0,data.length -4)
-          setTemp(data)
+          setTemp(data) // hiển thị nhiệt độ, data.length-2 và data.length-1 là "\r\n"
         }
       })
     }

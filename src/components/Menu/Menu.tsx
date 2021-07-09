@@ -16,18 +16,12 @@ const Menu = () =>{
     return(
       <IonMenu side="start" contentId="main" type = "push">
       <IonHeader>
-        <IonToolbar color="success">
+        <IonToolbar>
           <IonTitle>MENU</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
         <IonList>
-          <IonMenuToggle auto-hide="false">
-            <IonItem button routerLink={"/home"} routerDirection="none">
-              <IonLabel className = "end"><IonIcon icon = {home}/></IonLabel>
-              <IonLabel>Home</IonLabel>
-            </IonItem>
-          </IonMenuToggle>
           <IonMenuToggle auto-hide="false">
             <IonItem button routerLink={"/device"} routerDirection="none">
               <IonLabel className = "end"><IonIcon icon = {hardwareChip}/></IonLabel>

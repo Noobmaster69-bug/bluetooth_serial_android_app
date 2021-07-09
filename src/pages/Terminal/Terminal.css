@@ -19,4 +19,22 @@
     width: 60px;
     margin-top: 0px;
     margin-bottom: 0px;
+    margin-left: 10px;
+}
+.toolbar{
+    display: flex;
+}
+.toolbar > ion-title> span:nth-child(1){
+    text-align: justify;
+    margin-right: 20px;
+}
+.toolbar > ion-title> span:nth-child(2){
+    height: fit-content;
+    width: fit-content;
+}
+.toolbar > ion-title> span:nth-child(2) >ion-button:nth-child(1){
+    width: 110px
+}
+.toolbar > ion-title> span:nth-child(2) >ion-button:nth-child(2){
+    width: 80px;
 }

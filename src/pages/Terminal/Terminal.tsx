@@ -1,5 +1,5 @@
 import React, {useState,useRef,useEffect} from 'react';
-import { IonInput, IonIcon, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonMenu, IonItem, IonList ,IonMenuButton,IonButtons, useIonAlert, useIonViewDidEnter, useIonViewWillEnter, IonFooter, IonButton, IonLabel} from '@ionic/react';
+import { IonInput, IonIcon, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, useIonToast, IonItem, IonList ,IonMenuButton,IonButtons, useIonViewWillEnter, IonFooter, IonButton, IonLabel,useIonViewDidEnter} from '@ionic/react';
 import {send} from "ionicons/icons"
 import "./Terminal.css"
 import imga from '../../theme/HUHU.png'
@@ -7,60 +7,82 @@ const BS = require('cordova-plugin-bluetooth-serial')
 
 const Terminal: React.FC = (props) =>{  
   const SendData = useRef(null)
+  const content = useRef(null)
   const [Mess,setMess] = useState([])
   const [Data,setData] = useState([])
-  const [display,setdisplay] = useState([false,false])
-  const sendData = () =>{
-    
-    let data = SendData.current!.value + "\r\n"
-    BS.write(data)
-    SendData.current.value = ""
-    onData(data,"trans")
-    setMess(Data.map((dat) =>
-    <IonItem className = {dat.type}><IonLabel>{dat.data}</IonLabel></IonItem>
-    ))
+  const [Toast,disToast] = useIonToast()
+  const onDisconnect = () =>{
+    BS.disconnect((s) => toast(s),(f) => toast(f))
   }
-  const onData = (data,type) =>{
-    const temp1 = Data
-    temp1.push({data: data,type: type})
-    setData(temp1)
+  const toast = (mes) =>{
+    Toast({
+      message : mes,
+      duration : 30,
+    })
+  }
+
+  const sendData = (data) =>{
+    BS.isConnected(() =>{
+      BS.write(data,(s) =>{   
+        SendData.current.value = ""
+        var temp1 = Data
+        temp1.push({data: data, id:Data.length,class: "trans"})
+        setData(temp1)
+        setMess(Data.map((dat) =>
+        <IonItem className = {dat.class} id = {"row-"+dat.id}><IonLabel className = {dat.class}>{dat.data}</IonLabel></IonItem>
+        ))
+      })
+    })
   }
   useIonViewWillEnter(() =>{
-    setdisplay([false,false])
+    setData([])
+    setMess([])
     BS.subscribe('\n',(data) => {
-      onData(data,'re')
+      var temp1 = Data
+      temp1.push({data: data, class: "re"})
       setMess(Data.map((dat) =>
-      <IonItem className = {dat.type}><IonLabel className = {dat.type}>{dat.data}</IonLabel></IonItem>
+      <IonItem className = {dat.class} ><IonLabel className = {dat.class}>{dat.data}</IonLabel></IonItem>
       ))
     })
-    BS.isConnected(() =>{setdisplay([true,false])},() =>{setdisplay([false,true])})
-  })
+  },[])
 
   return (
     <IonPage className = "Terminal">
       <IonHeader>
-        <IonToolbar color = "success">
-          <IonTitle>Terminal</IonTitle>
+        <IonToolbar className= "toolbar">
+          <IonTitle>
+            <span>Terminal</span>
+            <span>          <IonButton onClick = {onDisconnect}>Disconnect</IonButton>
+{/* {          <IonButton 
+          onClick = {() => {
+            setData([])
+            setMess([])
+          }}     
+            >Clear</IonButton></span>} */}
+            </span>
+          </IonTitle>
           <IonButtons  slot="start" >
             <IonMenuButton autoHide = {false} id = "main"/>
           </IonButtons>
+
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
-        {display[0]&&(<IonList>
+      <IonContent fullscreen scrollEvents={true} ref ={content}>
+        <IonList>
           {Mess}
-        </IonList>)}
-        {display[1]&&(
-        <div className = "Disconnect">
-          <img src = {imga}/>
-          <div>Oh no! Please connect to devices to continue</div>
-        </div>)}
-      </IonContent>
+        </IonList>
+      </IonContent >
       <IonFooter>
-        {display[0]&&(<IonItem className = "input">
+        <IonItem className = "input">
+          <IonButton onClick ={() =>sendData('a')}>ON</IonButton>
+          <IonButton onClick = {() =>sendData('b')}>OFF</IonButton>
+          <IonButton onClick = {() =>sendData('K')}>K</IonButton>
+          <IonButton onClick = {() =>sendData('F')}>F</IonButton>
+        </IonItem>
+        <IonItem className = "input">
           <IonInput autofocus = {true} ref = {SendData}/>
-          <IonButton onClick = {() =>(sendData())} color = "success"><IonIcon size="large" icon = {send} /></IonButton>
-        </IonItem>)}
+          <IonButton onClick = {() =>(sendData(SendData.current!.value + "\r\n"))}><IonIcon size="large" icon = {send} /></IonButton>
+        </IonItem>
       </IonFooter>
     </IonPage>
   );
